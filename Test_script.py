@@ -1,9 +1,13 @@
+import configparser
 from pymisp import PyMISP
 
-# Replace these with your MISP instance credentials
-misp_url = 'https://misp-instance-url'
-misp_key = 'your-api-key'
-misp_verifycert = False  # Set to True if using SSL/TLS certificate verification
+# Read configuration from config.ini file
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+misp_url = config.get('misp', 'url')
+misp_key = config.get('misp', 'key')
+misp_verifycert = config.getboolean('misp', 'verifycert')
 
 misp = PyMISP(misp_url, misp_key, misp_verifycert)
 
@@ -15,28 +19,32 @@ domains = []
 ips = []
 urls = []
 
+ip_common_names = ['ip-src', 'ip-dst', 'ip']
+domain_common_names = ['domain', 'hostname']
+url_common_names = ['url','link']
+
 for event in events:
     for obj in event.objects:
-        if obj.name in ['domain','hostname']:
+        if obj.name in domain_common_names:
             domain_attribute = obj.attributes[0]
             domains.append(domain_attribute.value)
 
-        elif obj.name in ['ip-src', 'ip-dst']:
+        elif obj.name in ip_common_names:
             ip_attribute = obj.attributes[0]
             ips.append(ip_attribute.value)
 
-        elif obj.name in ['url','link']:
+        elif obj.name in url_common_names:
             url_attribute = obj.attributes[0]
             urls.append(url_attribute.value)
 
 # Export domains to a file
-with open('export/domains.txt', 'w') as f:
+with open('domains.txt', 'w') as f:
     f.write('\n'.join(domains))
 
 # Export IP addresses to a file
-with open('export/ips.txt', 'w') as f:
+with open('ips.txt', 'w') as f:
     f.write('\n'.join(ips))
 
 # Export URLs to a file
-with open('export/urls.txt', 'w') as f:
+with open('urls.txt', 'w') as f:
     f.write('\n'.join(urls))
