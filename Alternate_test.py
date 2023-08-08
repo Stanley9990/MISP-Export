@@ -26,7 +26,7 @@ domains = []
 urls = []
 
 # Extract IP addresses from search results
-for event in ip_events['response']:
+for event in ip_events:
     misp_event = MISPEvent()
     misp_event.load(event)
     for attribute in misp_event.attributes:
@@ -34,7 +34,7 @@ for event in ip_events['response']:
             ips.append(attribute['value'])
 
 # Extract domains from search results
-for event in domain_events['response']:
+for event in domain_events:
     misp_event = MISPEvent()
     misp_event.load(event)
     for attribute in misp_event.attributes:
@@ -42,7 +42,7 @@ for event in domain_events['response']:
             domains.append(attribute['value'])
 
 # Extract URLs from search results
-for event in url_events['response']:
+for event in url_events:
     misp_event = MISPEvent()
     misp_event.load(event)
     for attribute in misp_event.attributes:
