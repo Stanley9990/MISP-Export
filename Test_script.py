@@ -38,13 +38,13 @@ for event in events:
             urls.append(url_attribute.value)
 
 # Export domains to a file
-with open('domains.txt', 'w') as f:
+with open('export/domains.txt', 'w') as f:
     f.write('\n'.join(domains))
 
 # Export IP addresses to a file
-with open('ips.txt', 'w') as f:
+with open('export/ips.txt', 'w') as f:
     f.write('\n'.join(ips))
 
 # Export URLs to a file
-with open('urls.txt', 'w') as f:
+with open('export/urls.txt', 'w') as f:
     f.write('\n'.join(urls))
