@@ -27,6 +27,8 @@ def main():
         for attribute in current_attributes:
             ips.append(attribute.value)
 
+    exportToFile()
+
 
 def getAttributes(attribute_type,published_timestamp):
     attributes = misp.search(controller='attributes', publish_timestamp=published_timestamp, type_attribute=attribute_type, pythonify=True)
