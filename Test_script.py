@@ -4,15 +4,13 @@ from pymisp import PyMISP
 misp_url = 'https://misp-instance-url'
 misp_key = 'your-api-key'
 misp_verifycert = False  # Set to True if using SSL/TLS certificate verification
-
+print("Defined Vars")
 misp = PyMISP(misp_url, misp_key, misp_verifycert)
-
-# Set your desired confidence threshold (0 to 100)
-confidence_threshold = 70
-
+print("Defined misp")
 # Fetch all events from MISP
 events = misp.search(eventinfo='', pythonify=True)
-
+print("Defined Events")
+print(events)
 # Lists to store extracted data
 domains = []
 ips = []
@@ -20,23 +18,18 @@ urls = []
 
 for event in events:
     for obj in event.objects:
+        print(obj)
         if obj.name == 'domain':
-            confidence = obj.ObjectReference[0].confidence if obj.ObjectReference else None
-            if confidence is None or (obj.ObjectReference[0].object_relation == 'malicious' and confidence < confidence_threshold):
-                continue
-            domains.append(obj.value)
+            domain_value = obj.get_attributes_by_relation('domain')[0].value
+            domains.append(domain_value)
 
         elif obj.name == 'ip-src' or obj.name == 'ip-dst':
-            confidence = obj.ObjectReference[0].confidence if obj.ObjectReference else None
-            if confidence is None or (obj.ObjectReference[0].object_relation == 'malicious' and confidence < confidence_threshold):
-                continue
-            ips.append(obj.value)
+            ip_value = obj.get_attributes_by_relation('ip')[0].value
+            ips.append(ip_value)
 
         elif obj.name == 'url':
-            confidence = obj.ObjectReference[0].confidence if obj.ObjectReference else None
-            if confidence is None or (obj.ObjectReference[0].object_relation == 'malicious' and confidence < confidence_threshold):
-                continue
-            urls.append(obj.value)
+            url_value = obj.get_attributes_by_relation('url')[0].value
+            urls.append(url_value)
 
 # Export domains to a file
 with open('domains.txt', 'w') as f:
