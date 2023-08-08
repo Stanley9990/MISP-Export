@@ -1,5 +1,5 @@
 import configparser
-from pymisp import PyMISP, MISPAttribute
+from pymisp import PyMISP
 
 # Read configuration from config.ini file
 config = configparser.ConfigParser()
@@ -16,6 +16,6 @@ ip_src_events = misp.search(controller='attributes', type_attribute='ip-src', to
 
 # Extract and print IP source addresses
 for event in ip_src_events:
-    misp_event = MISPAttribute()
-    misp_event.load(event)
-    print("IP Source:", misp_event.value)
+    for attribute in event['Event']['Attribute']:
+        if attribute['type'] == 'ip-src':
+            print("IP Source:", attribute['value'])
