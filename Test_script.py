@@ -9,33 +9,30 @@ misp_url = config.get('misp', 'url')
 misp_key = config.get('misp', 'key')
 misp_verifycert = config.getboolean('misp', 'verifycert')
 
-misp = PyMISP(misp_url, misp_key, misp_verifycert)
-
-# Fetch all events from MISP
-events = misp.search(eventinfo='', pythonify=True)
-
 # Lists to store extracted data
 domains = []
 ips = []
 urls = []
 
+#Define Common Names
 ip_common_names = ['ip-src', 'ip-dst', 'ip', 'ipv4-addr', 'ipv6-addr']
 domain_common_names = ['domain', 'hostname', 'fqdn']
 url_common_names = ['url','link']
 
-for event in events:
-    for obj in event.objects:
-        if obj.name in domain_common_names:
-            domain_attribute = obj.attributes[0]
-            domains.append(domain_attribute.value)
+#Define MISP
+misp = PyMISP(misp_url, misp_key, misp_verifycert)
 
-        elif obj.name in ip_common_names:
-            ip_attribute = obj.attributes[0]
-            ips.append(ip_attribute.value)
 
-        elif obj.name in url_common_names:
-            url_attribute = obj.attributes[0]
-            urls.append(url_attribute.value)
+# Search for all attributes of type ip-src
+attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute='ip-src', pythonify=True)
+
+# Append all found attributes to list 
+for attribute in attributes:
+    print(attribute.value)
+    ips.append(attribute.value)
+
+print("ip-src done")
+
 
 # Export domains to a file
 with open('export/domains.txt', 'w') as f:
