@@ -24,7 +24,8 @@ def main():
     for common_name in ip_common_names:
         print(f"Current Attribute is {common_name}")
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
-        for attribute in current_attributes:
+        for attribute in attributes:
+            print(attribute.value)
             ips.append(attribute.value)
 
     exportToFile()
