@@ -1,5 +1,5 @@
 import configparser
-import requests
+from pymisp import PyMISP, MISPEvent
 
 # Read configuration from config.ini file
 config = configparser.ConfigParser()
@@ -9,35 +9,54 @@ misp_url = config.get('misp', 'url')
 misp_key = config.get('misp', 'key')
 misp_verifycert = config.getboolean('misp', 'verifycert')
 
-# Define the URLs for attribute files
-ip_src_url = f'{misp_url}/attributes/text/download/ip-src'
-ip_dst_url = f'{misp_url}/attributes/text/download/ip-dst'
-domain_url = f'{misp_url}/attributes/text/download/domain'
-hostname_url = f'{misp_url}/attributes/text/download/hostname'
-url_url = f'{misp_url}/attributes/text/download/url'
+misp = PyMISP(misp_url, misp_key, misp_verifycert)
 
-# Headers with API key
-headers = {
-    'Authorization': f'Bearer {misp_key}'
-}
+# Search for attributes of type ip-src and ip-dst
+ip_events = misp.search(controller='attributes', type_attribute=['ip-src', 'ip-dst'], to_ids=True)
 
-# Function to download and save data to a file
-def download_and_save(url, output_file):
-    response = requests.get(url, headers=headers, verify=misp_verifycert)
-    if response.status_code == 200:
-        with open(output_file, 'wb') as f:
-            f.write(response.content)
-            print(f'Downloaded and saved: {output_file}')
-    else:
-        print(f'Failed to download: {url}')
+# Search for attributes of type domain and hostname
+domain_events = misp.search(controller='attributes', type_attribute=['domain', 'hostname'], to_ids=True)
 
-# Download IP source and destination addresses
-download_and_save(ip_src_url, 'export/ips.txt')
-download_and_save(ip_dst_url, 'export/ips.txt')
+# Search for attributes of type url and link
+url_events = misp.search(controller='attributes', type_attribute=['url', 'link'], to_ids=True)
 
-# Download domains and hostnames
-download_and_save(domain_url, 'export/domains.txt')
-download_and_save(hostname_url, 'export/domains.txt')
+# Lists to store extracted data
+ips = []
+domains = []
+urls = []
 
-# Download URLs
-download_and_save(url_url, 'export/urls.txt')
+# Extract IP addresses from search results
+for event in ip_events['response']:
+    misp_event = MISPEvent()
+    misp_event.load(event)
+    for attribute in misp_event.attributes:
+        if attribute['type'] in ['ip-src', 'ip-dst']:
+            ips.append(attribute['value'])
+
+# Extract domains from search results
+for event in domain_events['response']:
+    misp_event = MISPEvent()
+    misp_event.load(event)
+    for attribute in misp_event.attributes:
+        if attribute['type'] in ['domain', 'hostname']:
+            domains.append(attribute['value'])
+
+# Extract URLs from search results
+for event in url_events['response']:
+    misp_event = MISPEvent()
+    misp_event.load(event)
+    for attribute in misp_event.attributes:
+        if attribute['type'] in ['url', 'link']:
+            urls.append(attribute['value'])
+
+# Export IP addresses to a file
+with open('export/ips.txt', 'w') as f:
+    f.write('\n'.join(ips))
+
+# Export domains to a file
+with open('export/domains.txt', 'w') as f:
+    f.write('\n'.join(domains))
+
+# Export URLs to a file
+with open('export/urls.txt', 'w') as f:
+    f.write('\n'.join(urls))
