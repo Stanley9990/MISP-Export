@@ -1,2 +1,17 @@
 # MISP-Export
 A simple Python script to export IPs, Domains and URLs from a MISP Instance
+
+## Usage
+- Log into `misp` user
+- Clone repo `git clone https://github.com/Stanley9990/MISP-Export.git` into `/home/misp`
+- Install dependencies `pip3 install -r requirements.txt` or `pip install -r requirements.txt`
+- Populate `config.ini`
+- Manually test script with `python3 Export.py`
+    - Check files in `/export` are populated
+
+
+- TODO - Cronjob Tutorial
+
+## Adding attribute names
+For now the way to add attribute types is to edit the corresponding `X_common_names` list within `Export.py`.
+
