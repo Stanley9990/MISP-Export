@@ -1,16 +1,19 @@
+import configparser
 from pymisp import PyMISP
 
-# Replace these with your MISP instance credentials
-misp_url = 'https://misp-instance-url'
-misp_key = 'your-api-key'
-misp_verifycert = False  # Set to True if using SSL/TLS certificate verification
-print("Defined Vars")
+# Read configuration from config.ini file
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+misp_url = config.get('misp', 'url')
+misp_key = config.get('misp', 'key')
+misp_verifycert = config.getboolean('misp', 'verifycert')
+
 misp = PyMISP(misp_url, misp_key, misp_verifycert)
-print("Defined misp")
+
 # Fetch all events from MISP
 events = misp.search(eventinfo='', pythonify=True)
-print("Defined Events")
-print(events)
+
 # Lists to store extracted data
 domains = []
 ips = []
@@ -18,18 +21,17 @@ urls = []
 
 for event in events:
     for obj in event.objects:
-        print(obj)
         if obj.name == 'domain':
-            domain_value = obj.get_attributes_by_relation('domain')[0].value
-            domains.append(domain_value)
+            domain_attribute = obj.attributes[0]
+            domains.append(domain_attribute.value)
 
         elif obj.name == 'ip-src' or obj.name == 'ip-dst':
-            ip_value = obj.get_attributes_by_relation('ip')[0].value
-            ips.append(ip_value)
+            ip_attribute = obj.attributes[0]
+            ips.append(ip_attribute.value)
 
         elif obj.name == 'url':
-            url_value = obj.get_attributes_by_relation('url')[0].value
-            urls.append(url_value)
+            url_attribute = obj.attributes[0]
+            urls.append(url_attribute.value)
 
 # Export domains to a file
 with open('domains.txt', 'w') as f:
