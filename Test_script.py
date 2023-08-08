@@ -19,8 +19,8 @@ domains = []
 ips = []
 urls = []
 
-ip_common_names = ['ip-src', 'ip-dst', 'ip']
-domain_common_names = ['domain', 'hostname']
+ip_common_names = ['ip-src', 'ip-dst', 'ip', 'ipv4-addr', 'ipv6-addr']
+domain_common_names = ['domain', 'hostname', 'fqdn']
 url_common_names = ['url','link']
 
 for event in events:
