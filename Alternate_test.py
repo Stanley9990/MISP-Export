@@ -6,6 +6,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 misp_url = config.get('misp', 'url')
+misp_key = config.get('misp', 'key')
 misp_verifycert = config.getboolean('misp', 'verifycert')
 
 # Define the URLs for attribute files
@@ -15,9 +16,14 @@ domain_url = f'{misp_url}/attributes/text/download/domain'
 hostname_url = f'{misp_url}/attributes/text/download/hostname'
 url_url = f'{misp_url}/attributes/text/download/url'
 
+# Headers with API key
+headers = {
+    'Authorization': f'Bearer {misp_key}'
+}
+
 # Function to download and save data to a file
 def download_and_save(url, output_file):
-    response = requests.get(url, verify=misp_verifycert)
+    response = requests.get(url, headers=headers, verify=misp_verifycert)
     if response.status_code == 200:
         with open(output_file, 'wb') as f:
             f.write(response.content)
