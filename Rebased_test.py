@@ -21,19 +21,15 @@ def main():
     #Define MISP
     misp = PyMISP(misp_url, misp_key, misp_verifycert)
 
-    for i in ip_common_names:
-        print(f"Current Attribute is {i}")
-        current_attributes = getAttributes(i,"1d") #Default 1d
+    for common_name in ip_common_names:
+        print(f"Current Attribute is {common_name}")
+        attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in current_attributes:
             ips.append(attribute.value)
 
     exportToFile()
 
 
-def getAttributes(attribute_type,published_timestamp):
-    attributes = misp.search(controller='attributes', publish_timestamp=published_timestamp, type_attribute=attribute_type, pythonify=True)
-    print(f"{attribute_type} done")
-    return attribute
 
 
 
