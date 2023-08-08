@@ -17,7 +17,7 @@ urls = []
 
 for event in events:
     for obj in event.objects:
-        if obj.name in ['domain','hostname']::
+        if obj.name in ['domain','hostname']:
             domain_attribute = obj.attributes[0]
             domains.append(domain_attribute.value)
 
