@@ -28,14 +28,7 @@ def main():
             print(attribute.value)
             ips.append(attribute.value)
 
-    exportToFile()
-
-
-
-
-
-def exportToFile():
-    # Export domains to a file
+        # Export domains to a file
     with open('export/domains.txt', 'w') as f:
         f.write('\n'.join(domains))
 
@@ -46,6 +39,7 @@ def exportToFile():
     # Export URLs to a file
     with open('export/urls.txt', 'w') as f:
         f.write('\n'.join(urls))
+
 
 
 if __name__ == "__main__":
