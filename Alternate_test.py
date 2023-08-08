@@ -1,21 +1,27 @@
 import configparser
 from pymisp import PyMISP
 
-# Read configuration from config.ini file
-config = configparser.ConfigParser()
-config.read('config.ini')
+def main():
+    # Read configuration from config.ini
+    config = configparser.ConfigParser()
+    config.read('config.ini')
 
-misp_url = config.get('misp', 'url')
-misp_key = config.get('misp', 'key')
-misp_verifycert = config.getboolean('misp', 'verifycert')
+    misp_url = config['misp']['url']
+    misp_key = config['misp']['key']
+    verify_cert = config.getboolean('misp', 'verifycert')
 
-misp = PyMISP(misp_url, misp_key, misp_verifycert)
+    # Initialize PyMISP instance
+    misp = PyMISP(misp_url, misp_key, verify_cert, debug=False)
 
-# Search for attributes of type ip-src
-ip_src_events = misp.search(controller='attributes', type_attribute='ip-src', to_ids=True)
+    # Fetch events from MISP instance
+    events = misp.search(controller='events')
 
-# Extract and print IP source addresses
-for event in ip_src_events:
-    for attribute in event['Attribute']:
-        if attribute['type'] == 'ip-src':
-            print("IP Source:", attribute['value'])
+    for event in events['response']:
+        event_id = event['Event']['id']
+        attributes = misp.search(controller='attributes', eventid=event_id, type_attribute='ip-src')
+        
+        for attribute in attributes['response']:
+            print(f"Event ID: {event_id}, Attribute: {attribute['Attribute']['value']}")
+
+if __name__ == "__main__":
+    main()
