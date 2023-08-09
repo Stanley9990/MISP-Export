@@ -15,11 +15,16 @@ For now the way to add attribute types is to edit the corresponding `X_common_na
 ## Known Issues
 - Warning errors will be shown when connection to MISP is established. This is because `verifycert` is set to `False` in `config.ini`
 
-##TODO
+## TODO
 - Cronjob Setup Documentation
 - Pass `X_common_names` into the script through `config.ini`
 - Improve Logging
     - Num of new IOCs
     - Time Elapsed
     - Errors
-    - etc     
+    - etc
+- Overall, adhere to Best practice better
+    - Use functions for everything
+        - Main()
+        - GetMISPAttributes()
+        - ExportAttributes()  
