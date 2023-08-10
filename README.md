@@ -17,6 +17,7 @@ For now the way to add attribute types is to edit the corresponding `X_common_na
 
 ## TODO
 - Cronjob Setup Documentation
+- check if each IOC has to_ids (Is IDS flag true for the attribute (Or Parent Event))
 - Pass `X_common_names` into the script through `config.ini`
 - Improve Logging
     - Num of new IOCs
