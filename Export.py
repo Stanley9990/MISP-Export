@@ -31,18 +31,32 @@ def main():
     for common_name in ip_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
-            ips.append(attribute.value)
+            if attribute.to_ids is True:
+                ips.append(attribute.value)
+            elif attribute.to_ids is False:
+                print("Non IDS Attribute")
+            else:
+                print("Error Occured")
 
     for common_name in domain_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
-            domains.append(attribute.value)
+            if attribute.to_ids is True:
+                domains.append(attribute.value)
+            elif attribute.to_ids is False:
+                print("Non IDS Attribute")
+            else:
+                print("Error Occured")
 
     for common_name in url_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
-            urls.append(attribute.value)
-
+            if attribute.to_ids is True:
+                urls.append(attribute.value)
+            elif attribute.to_ids is False:
+                print("Non IDS Attribute")
+            else:
+                print("Error Occured")
         # Export domains to a file
     with open('export/domains.txt', 'w') as f:
         f.write('\n'.join(domains))
