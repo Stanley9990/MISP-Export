@@ -27,7 +27,8 @@ def main():
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
             if attribute.to_ids is True:
-                print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+                #print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+                pass
             elif attribute.to_ids is False:
                 print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
             else:
@@ -38,7 +39,8 @@ def main():
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
             if attribute.to_ids is True:
-                print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+                #print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+                pass
             elif attribute.to_ids is False:
                 print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
             else:
@@ -49,7 +51,8 @@ def main():
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
             if attribute.to_ids is True:
-                print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+                #print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+                pass
             elif attribute.to_ids is False:
                 print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
             else:
