@@ -27,34 +27,31 @@ def main():
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
             if attribute.to_ids is True:
-                #print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
-                pass
+                print(f"Attribute \033[0;36m {attribute.value} \033[1;37m is flagged \033[0;32m IDS:TRUE ({attribute.to_ids}) \033[1;37m")
             elif attribute.to_ids is False:
-                print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
+                print(f"Attribute \033[0;36m {attribute.value} \033[1;37m is flagged \033[0;31m IDS:FALSE ({attribute.to_ids}) \033[1;37m")
             else:
-                print("Error - to_ids sect")
+                print("\033[0;31m Error - to_ids sect \033[1;37m")
 
     for common_name in domain_common_names:
         print(f"Current Attribute is {common_name}")
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
             if attribute.to_ids is True:
-                #print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
-                pass
+                print(f"Attribute \033[0;36m {attribute.value} \033[1;37m is flagged \033[0;32m IDS:TRUE ({attribute.to_ids}) \033[1;37m")
             elif attribute.to_ids is False:
-                print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
+                print(f"Attribute \033[0;36m {attribute.value} \033[1;37m is flagged \033[0;31m IDS:FALSE ({attribute.to_ids}) \033[1;37m")
             else:
-                print("Error - to_ids sect")    
+                print("Error - to_ids sect")  
 
     for common_name in url_common_names:
         print(f"Current Attribute is {common_name}")
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
             if attribute.to_ids is True:
-                #print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
-                pass
+                print(f"Attribute \033[0;36m {attribute.value} \033[1;37m is flagged \033[0;32m IDS:TRUE ({attribute.to_ids}) \033[1;37m")
             elif attribute.to_ids is False:
-                print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
+                print(f"Attribute \033[0;36m {attribute.value} \033[1;37m is flagged \033[0;31m IDS:FALSE ({attribute.to_ids}) \033[1;37m")
             else:
                 print("Error - to_ids sect")
 
