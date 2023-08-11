@@ -14,6 +14,7 @@ For now the way to add attribute types is to edit the corresponding `X_common_na
 
 ## Known Issues
 - Warning errors will be shown when connection to MISP is established. This is because `verifycert` is set to `False` in `config.ini`
+- The printed lines in the source of the test script are difficult to read because I have used inline colour codes. Am I going to change this? Probably not.
 
 ## TODO
 - Cronjob Setup Documentation
