@@ -10,11 +10,6 @@ def main():
     misp_key = config.get('misp', 'key')
     misp_verifycert = config.getboolean('misp', 'verifycert')
 
-    # Lists to store extracted attributes
-    domains = []
-    ips = []
-    urls = []
-
     #Define Common Names
     ip_common_names = ['ip-src', 'ip-dst', 'ip', 'ipv4-addr', 'ipv6-addr']
     domain_common_names = ['domain', 'hostname', 'fqdn']
@@ -22,7 +17,6 @@ def main():
 
     #MISP connection
     misp = PyMISP(misp_url, misp_key, misp_verifycert)
-
 
     #The following 3 For loops iterate through attribute names defined in the lists defined above
     #They will grab all Attributes from the last 1d (One Day) and add them to the exported lists
@@ -32,34 +26,34 @@ def main():
         print(f"Current Attribute is {common_name}")
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
-            print(attribute.value)
-            ips.append(attribute.value)
+            if attribute.to_ids is True:
+                print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+            elif attribute.to_ids is False:
+                print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
+            else:
+                print("Error - to_ids sect")
 
     for common_name in domain_common_names:
         print(f"Current Attribute is {common_name}")
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
-            print(attribute.value)
-            domains.append(attribute.value)
+            if attribute.to_ids is True:
+                print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+            elif attribute.to_ids is False:
+                print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
+            else:
+                print("Error - to_ids sect")    
 
     for common_name in url_common_names:
         print(f"Current Attribute is {common_name}")
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True)
         for attribute in attributes:
-            print(attribute.value)
-            urls.append(attribute.value)
-
-        # Export domains to a file
-    with open('export/domains.txt', 'w') as f:
-        f.write('\n'.join(domains))
-
-    # Export IP addresses to a file
-    with open('export/ips.txt', 'w') as f:
-        f.write('\n'.join(ips))
-
-    # Export URLs to a file
-    with open('export/urls.txt', 'w') as f:
-        f.write('\n'.join(urls))
+            if attribute.to_ids is True:
+                print(f"Attribute {attribute.value} is flagged IDS:TRUE ({attribute.to_ids})")
+            elif attribute.to_ids is False:
+                print(f"Attribute {attribute.value} is flagged IDS:FALSE ({attribute.to_ids})")
+            else:
+                print("Error - to_ids sect")
 
 
 if __name__ == "__main__":
