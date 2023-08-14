@@ -28,18 +28,20 @@ def main():
     for common_name in ip_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name,return_format='stix2', pythonify=True)
         print(attributes)
-        StixList.append(attributes)
+        with open('export/test.stix', 'a') as f:
+            f.write(attributes)
     for common_name in domain_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, return_format='stix2')
         print(attributes)
-        StixList.append(attributes)
+        with open('export/test.stix', 'a') as f:
+            f.write(attributes)
     for common_name in url_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name,return_format='stix2', pythonify=True)
         print(attributes)
-        StixList.append(attributes)
-    print(StixList)
-    with open('export/test.stix', 'w') as f:
-        f.write(StixList)
+        with open('export/test.stix', 'a') as f:
+            f.write(attributes)
+    
+    
 
 if __name__ == "__main__":
     main()
