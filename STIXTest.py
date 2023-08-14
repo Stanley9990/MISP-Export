@@ -38,7 +38,8 @@ def main():
         print(attributes)
         StixList.append(attributes)
     print(StixList)
-   
+    with open('export/test.stix', 'w') as f:
+        f.write(StixList)
 
 if __name__ == "__main__":
     main()
