@@ -11,9 +11,7 @@ def main():
     misp_verifycert = config.getboolean('misp', 'verifycert')
 
     # Lists to store extracted attributes
-    domains = []
-    ips = []
-    urls = []
+    StixList = []
 
     #Define Common Names
     ip_common_names = ['ip-src', 'ip-dst', 'ip', 'ipv4-addr', 'ipv6-addr']
@@ -30,15 +28,16 @@ def main():
     for common_name in ip_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name,return_format='stix2', pythonify=True)
         print(attributes)
-
+        StixList.append(attributes)
     for common_name in domain_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, return_format='stix2')
         print(attributes)
-
+        StixList.append(attributes)
     for common_name in url_common_names:
         attributes = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name,return_format='stix2', pythonify=True)
         print(attributes)
-
+        StixList.append(attributes)
+    print(StixList)
    
 
 if __name__ == "__main__":
