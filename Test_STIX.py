@@ -59,18 +59,22 @@ def main():
             else:
                 print("Error Occured")
  
-    # Create a STIX bundle
-    stix_bundle = Bundle()
+    
+    # Create a list to hold STIX objects
+    stix_objects = []
 
-    # Populate STIX bundle with attributes
+    # Populate the list with STIX objects
     for domain in domains:
-        stix_bundle.add(DomainName(value=domain))
+        stix_objects.append(DomainName(value=domain))
 
     for ip in ips:
-        stix_bundle.add(IPv4Address(value=ip))
+        stix_objects.append(IPv4Address(value=ip))
 
     for url in urls:
-        stix_bundle.add(URL(value=url))
+        stix_objects.append(URL(value=url))
+
+    # Create a STIX bundle from the list of STIX objects
+    stix_bundle = Bundle(objects=stix_objects)
 
     # Export STIX bundle to a file
     with open('export/attributes.stix', 'w') as f:
