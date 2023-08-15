@@ -63,26 +63,26 @@ def main():
                 print("Error Occured")
  
     
-    # Create a STIX Package
+     # Create a STIX Package
     stix_package = STIXPackage()
 
-     # Create Indicator types
+    # Create Indicator types
     for domain in domains:
         indicator = Indicator()
         indicator.title = domain
-        indicator.indicator_types.append(IndicatorType(IndicatorTypeVocab.DOMAIN_WATCHLIST))
+        indicator.indicator_types.append(IndicatorType("Domain Watchlist"))
         stix_package.add_indicator(indicator)
 
     for ip in ips:
         indicator = Indicator()
         indicator.title = ip
-        indicator.indicator_types.append(IndicatorType(IndicatorTypeVocab.IP_WATCHLIST))
+        indicator.indicator_types.append(IndicatorType("IP Watchlist"))
         stix_package.add_indicator(indicator)
 
     for url in urls:
         indicator = Indicator()
         indicator.title = url
-        indicator.indicator_types.append(IndicatorType(IndicatorTypeVocab.URL_WATCHLIST))
+        indicator.indicator_types.append(IndicatorType("URL Watchlist"))
         stix_package.add_indicator(indicator)
 
     # Export STIX Package to a file
