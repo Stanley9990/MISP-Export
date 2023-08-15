@@ -86,8 +86,8 @@ def main():
         stix_package.add_indicator(indicator)
 
     # Export STIX Package to a file
-    with open('export/attributes.xml', 'w') as f:
-        f.write(stix_package.to_xml())
+    with open('export/attributes.stix', 'wb') as f:  # Open the file in binary write mode
+        f.write(stix_package.to_xml().decode('utf-8'))  # Decode bytes to string and write to the file
 
 
 if __name__ == "__main__":
