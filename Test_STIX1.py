@@ -2,8 +2,11 @@ import configparser
 from pymisp import PyMISP
 from stix.core import STIXPackage
 from stix.indicator import Indicator
-from stix.indicator.indicator import IndicatorType
-from stix.indicator import Address, DomainName, URL
+from cybox.objects.address_object import Address
+from cybox.objects.domain_name_object import DomainName
+from cybox.objects.uri_object import URI
+
+
 
 def main():
     # Read configuration from config.ini file
@@ -63,31 +66,38 @@ def main():
                 print("Error Occured")
  
     
-    # Create a STIX Package
-    stix_package = STIXPackage()
+    stix_objects = []
 
-    # Create a STIX Package
-    stix_package = STIXPackage()
-
+    # Create Indicator types
     for domain in domains:
-        indicator = DomainName()
-        indicator.value = domain
-        stix_package.add_indicator(indicator)
-
-    for ip in ips:
-        indicator = Address()
-        indicator.address_value = ip
-        stix_package.add_indicator(indicator)
+        domain_obj = DomainName()
+        domain_obj.value = domain
+        stix_objects.append(domain_obj)
 
     for url in urls:
-        indicator = URL()
-        indicator.value = url
+        url_obj = URI()
+        url_obj.value = url
+        stix_objects.append(url_obj)
+
+    for ip in ips:
+        ip_obj = Address(category=Address.CAT_IPV4, address_value=ip)
+        stix_objects.append(ip_obj)
+
+        # Export STIX Package to a file
+        with open('export/attributes.stix', 'wb') as f:  # Open the file in binary write mode
+            f.write(stix_package.to_xml())  # Decode bytes to string and write to the file
+
+
+    stix_package = STIXPackage()
+
+    for stix_object in stix_objects:
+        indicator = Indicator()
+        indicator.add_object(stix_object)
         stix_package.add_indicator(indicator)
 
-    # Export STIX Package to a file
-    with open('export/attributes.stix', 'wb') as f:  # Open the file in binary write mode
-        f.write(stix_package.to_xml())  # Decode bytes to string and write to the file
-
+    stix_filename = "attr.stix"
+    with open(stix_filename, "w") as stix_file:
+        stix_file.write(stix_package.to_xml())
 
 if __name__ == "__main__":
     main()
