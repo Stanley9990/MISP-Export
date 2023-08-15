@@ -91,7 +91,7 @@ def main():
         stix_package.add_indicator(indicator)
 
     stix_filename = "attr.stix"
-    with open(stix_filename, "w") as stix_file:
+    with open(stix_filename, "wb") as stix_file:
         stix_file.write(stix_package.to_xml())
 
 if __name__ == "__main__":
