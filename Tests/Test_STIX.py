@@ -26,17 +26,17 @@ def main():
 
     for common_name in ip_common_names:
         print(f"Current Attribute is {common_name}")
-        attributes_ip = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
+        attributes_ip = misp.search(publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_ip)
 
     for common_name in domain_common_names:
         print(f"Current Attribute is {common_name}")
-        attributes_domains = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
+        attributes_domains = misp.search(publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_domains)
 
     for common_name in url_common_names:
         print(f"Current Attribute is {common_name}")
-        attributes_urls = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
+        attributes_urls = misp.search(publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_urls)
 
     stix_data = make_stix_package(attributes_domains)
