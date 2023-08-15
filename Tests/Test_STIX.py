@@ -24,22 +24,9 @@ def main():
     #They will grab all Attributes from the last 1d (One Day) and add them to the exported lists
     #This could probably be turned into a function for elegance, but works for now
 
-    for common_name in ip_common_names:
-        print(f"Current Attribute is {common_name}")
-        attributes_ip = misp.search(publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
-        print(attributes_ip)
+    events = misp.search(publish_timestamp='1d', pythonify=True, to_ids=True)
 
-    for common_name in domain_common_names:
-        print(f"Current Attribute is {common_name}")
-        attributes_domains = misp.search(publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
-        print(attributes_domains)
-
-    for common_name in url_common_names:
-        print(f"Current Attribute is {common_name}")
-        attributes_urls = misp.search(publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
-        print(attributes_urls)
-
-    stix_data = make_stix_package(attributes_domains)
+    stix_data = make_stix_package(events)
     with open("domains.stix", 'w') as stix_file:
         stix_file.write(stix_data)
     
