@@ -3,7 +3,7 @@ from pymisp import PyMISP
 from stix.core import STIXPackage
 from stix.indicator import Indicator
 from stix.indicator.indicator import IndicatorType
-
+from stix.indicator import Address, DomainName, URL
 
 def main():
     # Read configuration from config.ini file
@@ -63,31 +63,30 @@ def main():
                 print("Error Occured")
  
     
-     # Create a STIX Package
+    # Create a STIX Package
     stix_package = STIXPackage()
 
-    # Create Indicator types
+    # Create a STIX Package
+    stix_package = STIXPackage()
+
     for domain in domains:
-        indicator = Indicator()
-        indicator.title = domain
-        indicator.indicator_types.append(IndicatorType("Domain Watchlist"))
+        indicator = DomainName()
+        indicator.value = domain
         stix_package.add_indicator(indicator)
 
     for ip in ips:
-        indicator = Indicator()
-        indicator.title = ip
-        indicator.indicator_types.append(IndicatorType("IP Watchlist"))
+        indicator = Address()
+        indicator.address_value = ip
         stix_package.add_indicator(indicator)
 
     for url in urls:
-        indicator = Indicator()
-        indicator.title = url
-        indicator.indicator_types.append(IndicatorType("URL Watchlist"))
+        indicator = URL()
+        indicator.value = url
         stix_package.add_indicator(indicator)
 
     # Export STIX Package to a file
     with open('export/attributes.stix', 'wb') as f:  # Open the file in binary write mode
-        f.write(stix_package.to_xml())  # Decode bytes to string and write to the file
+        f.write(stix_package.to_xml(version="1.1.1"))  # Decode bytes to string and write to the file
 
 
 if __name__ == "__main__":
