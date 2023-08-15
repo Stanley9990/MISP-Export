@@ -1,7 +1,7 @@
 import configparser
 import json
 from pymisp import PyMISP
-from pymisp.tools.stix import stix_package
+from pymisp.tools.stix import make_stix_package
 
 def main():
     # Read configuration from config.ini file
@@ -39,7 +39,7 @@ def main():
         attributes_urls = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_urls)
 
-    stix_data = stix_package(attributes_domains)
+    stix_data = make_stix_package(attributes_domains)
     with open("domains.stix", 'w') as stix_file:
         stix_file.write(stix_data)
     
