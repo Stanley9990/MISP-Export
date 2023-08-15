@@ -87,7 +87,7 @@ def main():
 
     # Export STIX Package to a file
     with open('export/attributes.stix', 'wb') as f:  # Open the file in binary write mode
-        f.write(stix_package.to_xml().decode('utf-8'))  # Decode bytes to string and write to the file
+        f.write(stix_package.to_xml())  # Decode bytes to string and write to the file
 
 
 if __name__ == "__main__":
