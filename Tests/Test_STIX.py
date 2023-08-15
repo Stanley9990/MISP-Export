@@ -19,8 +19,8 @@ def main():
     misp = PyMISP(misp_url, misp_key, misp_verifycert)
 
 
-    events_stix = misp.search(controller='attributes', publish_timestamp='1d', pythonify=False, return_format="stix")
+    events_stix = misp.search(controller='attributes', publish_timestamp='1d', pythonify=True, return_format="stix")
     print(events_stix)
-    
+
 if __name__ == "__main__":
     main()
