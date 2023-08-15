@@ -38,8 +38,8 @@ def main():
         attributes_urls = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True, return_format="stix2")
         print(attributes_urls)
 
-    with open('domains.stix', 'w') as f:
-        json.dump(attributes_domains, f)
+    #with open('domains.stix', 'w') as f:
+    #    json.dump(attributes_domains, f)
 
 
 if __name__ == "__main__":
