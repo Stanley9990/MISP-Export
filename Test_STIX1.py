@@ -1,11 +1,7 @@
 import configparser
 from pymisp import PyMISP
 from stix.core import STIXPackage
-from stix.common import ExternalID, InformationSource
 from stix.indicator import Indicator
-from stix.indicator.indicator import IndicatorType
-from stix.ttp import TTP, Behavior
-from stix.ttp.behavior import MalwareInstance
 
 def main():
     # Read configuration from config.ini file
