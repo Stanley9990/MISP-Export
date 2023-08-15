@@ -70,19 +70,19 @@ def main():
     for domain in domains:
         indicator = Indicator()
         indicator.title = domain
-        indicator.indicator_types.append(IndicatorType("Domain Watchlist"))
+        indicator.indicator_types.append(IndicatorType("Domain Name"))
         stix_package.add_indicator(indicator)
 
     for ip in ips:
         indicator = Indicator()
         indicator.title = ip
-        indicator.indicator_types.append(IndicatorType("IP Watchlist"))
+        indicator.indicator_types.append(IndicatorType("IPv4"))
         stix_package.add_indicator(indicator)
 
     for url in urls:
         indicator = Indicator()
         indicator.title = url
-        indicator.indicator_types.append(IndicatorType("URL Watchlist"))
+        indicator.indicator_types.append(IndicatorType("URL"))
         stix_package.add_indicator(indicator)
 
     # Export STIX Package to a file
@@ -92,9 +92,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
