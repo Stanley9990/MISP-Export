@@ -1,6 +1,7 @@
 import configparser
 import json
 from pymisp import PyMISP
+from pymisp.tools.stix import stix_package
 
 def main():
     # Read configuration from config.ini file
@@ -25,21 +26,23 @@ def main():
 
     for common_name in ip_common_names:
         print(f"Current Attribute is {common_name}")
-        attributes_ip = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True, return_format="stix2")
+        attributes_ip = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_ip)
 
     for common_name in domain_common_names:
         print(f"Current Attribute is {common_name}")
-        attributes_domains = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True, return_format="stix2")
+        attributes_domains = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_domains)
 
     for common_name in url_common_names:
         print(f"Current Attribute is {common_name}")
-        attributes_urls = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True, return_format="stix2")
+        attributes_urls = misp.search(controller='attributes', publish_timestamp='1d', type_attribute=common_name, pythonify=True, to_ids=True)
         print(attributes_urls)
 
-    #with open('domains.stix', 'w') as f:
-    #    json.dump(attributes_domains, f)
+    stix_data = stix_package(attributes_domains)
+    with open("domains.stix", 'w') as stix_file:
+        stix_file.write(stix_data)
+    
 
 
 if __name__ == "__main__":
