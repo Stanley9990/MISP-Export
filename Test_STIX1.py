@@ -2,6 +2,8 @@ import configparser
 from pymisp import PyMISP
 from stix.core import STIXPackage
 from stix.indicator import Indicator
+from stix.indicator.indicator import IndicatorType
+
 
 def main():
     # Read configuration from config.ini file
@@ -64,23 +66,23 @@ def main():
     # Create a STIX Package
     stix_package = STIXPackage()
 
-    # Create Indicator types
+     # Create Indicator types
     for domain in domains:
         indicator = Indicator()
         indicator.title = domain
-        indicator.add_indicator_type("Domain Name")
+        indicator.indicator_types.append(IndicatorType(IndicatorTypeVocab.DOMAIN_WATCHLIST))
         stix_package.add_indicator(indicator)
 
     for ip in ips:
         indicator = Indicator()
         indicator.title = ip
-        indicator.add_indicator_type("IP Address")
+        indicator.indicator_types.append(IndicatorType(IndicatorTypeVocab.IP_WATCHLIST))
         stix_package.add_indicator(indicator)
 
     for url in urls:
         indicator = Indicator()
         indicator.title = url
-        indicator.add_indicator_type("URL")
+        indicator.indicator_types.append(IndicatorType(IndicatorTypeVocab.URL_WATCHLIST))
         stix_package.add_indicator(indicator)
 
     # Export STIX Package to a file
