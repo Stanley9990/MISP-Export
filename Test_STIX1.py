@@ -2,7 +2,8 @@ import configparser
 from pymisp import PyMISP
 from stix.core import STIXPackage
 from stix.indicator import Indicator
-from stix.indicator.indicator import IndicatorType
+from stix.common import InformationSource
+from stix.utils import set_id_namespace
 
 
 def main():
@@ -63,26 +64,21 @@ def main():
                 print("Error Occured")
  
     
-     # Create a STIX Package
+      # Create a STIX Package
     stix_package = STIXPackage()
 
-    # Create Indicator types
-    for domain in domains:
-        indicator = Indicator()
-        indicator.title = domain
-        indicator.indicator_types.append(IndicatorType("Domain Watchlist"))
-        stix_package.add_indicator(indicator)
+    # Set STIX 1.1 namespace
+    set_id_namespace("http://stix.mitre.org/stix-1")
 
-    for ip in ips:
-        indicator = Indicator()
-        indicator.title = ip
-        indicator.indicator_types.append(IndicatorType("IP Watchlist"))
-        stix_package.add_indicator(indicator)
+    # Add Information Source
+    information_source = InformationSource()
+    information_source.identity = "MISP"
+    stix_package.stix_header.information_source = information_source
 
-    for url in urls:
+    # Create Indicator types for normalized IOCs
+    for ioc in normalized_iocs:
         indicator = Indicator()
-        indicator.title = url
-        indicator.indicator_types.append(IndicatorType("URL Watchlist"))
+        indicator.title = ioc
         stix_package.add_indicator(indicator)
 
     # Export STIX Package to a file
