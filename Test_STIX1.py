@@ -83,11 +83,6 @@ def main():
         ip_obj = Address(category=Address.CAT_IPV4, address_value=ip)
         stix_objects.append(ip_obj)
 
-        # Export STIX Package to a file
-        with open('export/attributes.stix', 'wb') as f:  # Open the file in binary write mode
-            f.write(stix_package.to_xml())  # Decode bytes to string and write to the file
-
-
     stix_package = STIXPackage()
 
     for stix_object in stix_objects:
