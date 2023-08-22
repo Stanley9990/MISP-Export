@@ -77,7 +77,7 @@ def main():
     stix_bundle = Bundle(objects=stix_objects)
 
     # Export STIX bundle to a file
-    with open('export/attributes.stix', 'w') as f:
+    with open('export/stix2.stix', 'w') as f:
         f.write(stix_bundle.serialize(pretty=True))
 
 

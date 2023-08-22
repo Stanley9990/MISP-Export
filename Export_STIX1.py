@@ -90,7 +90,7 @@ def main():
         indicator.add_object(stix_object)
         stix_package.add_indicator(indicator)
 
-    stix_filename = "attr.stix"
+    stix_filename = "/export/stix1.stix"
     with open(stix_filename, "wb") as stix_file:
         stix_file.write(stix_package.to_xml())
 
