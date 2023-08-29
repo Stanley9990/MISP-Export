@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import configparser
 from pymisp import PyMISP
 from stix2 import Bundle, DomainName, IPv4Address, URL
