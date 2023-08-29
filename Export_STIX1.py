@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import configparser
 from pymisp import PyMISP
 from stix.core import STIXPackage
