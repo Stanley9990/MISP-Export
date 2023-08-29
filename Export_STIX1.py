@@ -91,7 +91,7 @@ def main():
         indicator = Indicator()
         indicator.add_object(stix_object)
         stix_package.add_indicator(indicator)
-
+    # Export STIX bundle to a file
     stix_filename = "/export/stix1.stix"
     with open(stix_filename, "wb") as stix_file:
         stix_file.write(stix_package.to_xml())
